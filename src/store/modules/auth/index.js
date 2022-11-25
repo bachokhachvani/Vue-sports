@@ -3,7 +3,7 @@ import axios from "axios";
 export default {
   namespaced: true,
   state() {
-    return { token: null };
+    return { token: null, errorMessage: null };
   },
   getters: {
     userToken(state) {
@@ -13,11 +13,16 @@ export default {
         return state.token;
       }
     },
+    loginErrorMessage(state) {
+      if (!state) {
+        return "";
+      } else {
+        return state.errorMessage;
+      }
+    },
   },
   mutations: {
     setUser(state, payload) {
-      console.log("payasd", payload.token);
-      console.log("stasd", state.token);
       state.token = payload.token;
       console.log("sasstasd", state.token);
       localStorage.setItem("token", state.token);
@@ -28,6 +33,10 @@ export default {
         // this.replaceState(Object.assign(state, localStorage.getItem("token")));
         state.token = localStorage.getItem("token");
       }
+    },
+    setError(state, payload) {
+      state.errorMessage = payload.errorMessage;
+      console.log("payload", payload);
     },
   },
   actions: {
@@ -44,8 +53,15 @@ export default {
         context.commit("setUser", {
           token: response.data.token,
         });
+        context.commit("setError", {
+          errorMessage: null,
+        });
       } catch (e) {
-        console.error(e);
+        context.commit("setError", {
+          errorMessage: e.message,
+        });
+        // this.errorMessage = e.message;
+        // console.log("errasd", this.errorMessage);
       }
     },
   },

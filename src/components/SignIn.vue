@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <h3>Sign In</h3>
-    <p>{{ token }}</p>
+    <p>{{ userToken }}</p>
     <form @submit.prevent="submitHandler">
       <div>
         <label for="login">Login</label>
@@ -11,6 +11,7 @@
         <label for="password">Password</label>
         <input v-model.trim="password" type="text" placeholder="password" />
       </div>
+      <p v-if="loginErrorMessage">{{ loginErrorMessage }}</p>
       <p v-if="!formIsValid">Email or password is incorrect</p>
       <button>Sign in</button>
     </form>
@@ -18,31 +19,43 @@
 </template>
 
 <script>
-// import { mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "SignIn",
   data() {
-    return { email: "", password: "", formIsValid: true };
+    return {
+      email: "",
+      password: "",
+      formIsValid: true,
+      isLoading: false,
+      error: false,
+    };
   },
   computed: {
-    token() {
-      return this.$store.getters["auth/userToken"];
-    },
-    // ...mapGetters("auth", ["userToken"]),
+    // token() {
+    //   return this.$store.getters["auth/userToken"];
+    // },
+    ...mapGetters("auth", ["userToken", "loginErrorMessage"]),
   },
   methods: {
-    submitHandler() {
+    async submitHandler() {
       this.formIsValid = true;
       if (this.email === "" || !this.email.includes("@")) {
         this.formIsValid = false;
         return;
       }
-      console.log("user", this.password, this.email);
-      this.$store.dispatch("auth/login", {
-        login: this.email,
-        password: this.password,
-      });
+      this.isLoading = true;
+      try {
+        await this.$store.dispatch("auth/login", {
+          login: this.email,
+          password: this.password,
+        });
+      } catch (e) {
+        this.error = e.message || "failed to login!";
+        console.log("err");
+      }
+      this.isLoading = false;
     },
   },
 };
