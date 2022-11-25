@@ -1,29 +1,48 @@
 <template>
   <div class="main">
     <h3>Sign In</h3>
-    <form action="submit" @click.prevent="submitHandler">
+    <p>{{ token }}</p>
+    <form @submit.prevent="submitHandler">
       <div>
         <label for="login">Login</label>
-        <input v-model="name" type="text" placeholder="username" />
+        <input v-model.trim="email" type="text" placeholder="email" />
       </div>
       <div>
         <label for="password">Password</label>
-        <input v-model="password" type="text" placeholder="password" />
+        <input v-model.trim="password" type="text" placeholder="password" />
       </div>
+      <p v-if="!formIsValid">Email or password is incorrect</p>
       <button>Sign in</button>
     </form>
   </div>
 </template>
 
 <script>
+// import { mapGetters } from "vuex";
+
 export default {
   name: "SignIn",
   data() {
-    return { name: "", password: "" };
+    return { email: "", password: "", formIsValid: true };
+  },
+  computed: {
+    token() {
+      return this.$store.getters["auth/userToken"];
+    },
+    // ...mapGetters("auth", ["userToken"]),
   },
   methods: {
     submitHandler() {
-      console.log("user", this.password, this.name);
+      this.formIsValid = true;
+      if (this.email === "" || !this.email.includes("@")) {
+        this.formIsValid = false;
+        return;
+      }
+      console.log("user", this.password, this.email);
+      this.$store.dispatch("auth/login", {
+        login: this.email,
+        password: this.password,
+      });
     },
   },
 };
