@@ -9,7 +9,7 @@ new Vue({
   router,
   store,
   mounted() {
-    this.$store.commit("auth/initialiseStoreWithToken");
+    this.$store.commit("initialiseStoreWithToken");
   },
   render: (h) => h(App),
 }).$mount("#app");

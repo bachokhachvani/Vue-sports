@@ -1,7 +1,6 @@
 <template>
   <div class="main">
     <h3>Sign In</h3>
-    <p>{{ userToken }}</p>
     <form @submit.prevent="submitHandler">
       <div>
         <label for="login">Login</label>
@@ -11,7 +10,8 @@
         <label for="password">Password</label>
         <input v-model.trim="password" type="text" placeholder="password" />
       </div>
-      <p v-if="loginErrorMessage">{{ loginErrorMessage }}</p>
+      <p v-if="isLoading">Loading ...</p>
+      <p v-if="loginErrorMessage && !isLoading">{{ loginErrorMessage }}</p>
       <p v-if="!formIsValid">Email or password is incorrect</p>
       <button>Sign in</button>
     </form>
@@ -36,7 +36,7 @@ export default {
     // token() {
     //   return this.$store.getters["auth/userToken"];
     // },
-    ...mapGetters("auth", ["userToken", "loginErrorMessage"]),
+    ...mapGetters(["userToken", "loginErrorMessage"]),
   },
   methods: {
     async submitHandler() {
@@ -47,7 +47,7 @@ export default {
       }
       this.isLoading = true;
       try {
-        await this.$store.dispatch("auth/login", {
+        await this.$store.dispatch("login", {
           login: this.email,
           password: this.password,
         });
@@ -56,6 +56,14 @@ export default {
         console.log("err");
       }
       this.isLoading = false;
+      if (!this.loginErrorMessage) {
+        this.$router.push("/sports");
+        try {
+          await this.$store.dispatch("getSports");
+        } catch (e) {
+          console.error(e);
+        }
+      }
     },
   },
 };

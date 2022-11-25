@@ -1,7 +1,8 @@
 import axios from "axios";
 
 export default {
-  namespaced: true,
+  //not namespaced because of token
+  // namespaced: true,
   state() {
     return { token: null, errorMessage: null };
   },
@@ -60,8 +61,22 @@ export default {
         context.commit("setError", {
           errorMessage: e.message,
         });
-        // this.errorMessage = e.message;
-        // console.log("errasd", this.errorMessage);
+      }
+    },
+    async getSports(context) {
+      try {
+        const response = await axios.get(
+          "https://paridirect-ussd.dev.smrtsrc.io/api/sports-book/sports?culture=en",
+          {
+            headers: {
+              Authorization: `Bearer ${context.getters.userToken}`,
+            },
+          }
+        );
+        console.log("asdasdasd", response);
+        localStorage.setItem("sportsList", JSON.stringify(response.data));
+      } catch (e) {
+        console.error(e);
       }
     },
   },
