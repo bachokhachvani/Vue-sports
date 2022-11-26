@@ -1,6 +1,8 @@
 <template>
   <div class="main">
-    <div v-if="userToken"><h3>Home Page</h3></div>
+    <div v-if="userToken">
+      <h3>Home Page</h3>
+    </div>
     <div v-if="!userToken">
       <h3>Sign In</h3>
       <form @submit.prevent="submitHandler">

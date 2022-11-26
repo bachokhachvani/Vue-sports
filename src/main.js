@@ -10,7 +10,8 @@ new Vue({
   store,
   mounted() {
     this.$store.commit("initialiseStoreWithToken");
-    this.$store.commit("initialiseStoreWithSports");
+    // this.$store.commit("initialiseStoreWithSports");
+    this.$store.dispatch("getSports");
   },
   render: (h) => h(App),
 }).$mount("#app");
