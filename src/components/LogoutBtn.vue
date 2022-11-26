@@ -1,6 +1,8 @@
 <template>
   <div class="main">
-    <button v-if="userToken" @click="logout">Logout</button>
+    <nav>
+      <button v-if="userToken" @click="logout">Logout</button>
+    </nav>
   </div>
 </template>
 
@@ -8,7 +10,7 @@
 import { mapGetters } from "vuex";
 export default {
   name: "LogoutBtn",
-  data() {},
+  // data() {},
   computed: {
     ...mapGetters(["userToken"]),
     // isLoggedIn() {
@@ -19,9 +21,15 @@ export default {
     logout() {
       localStorage.clear();
       this.$router.push("/");
+      this.$store.dispatch("setTokenNull");
     },
   },
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.main {
+  display: flex;
+  justify-content: flex-end;
+}
+</style>

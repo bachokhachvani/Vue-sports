@@ -33,8 +33,12 @@ export default {
     setUser(state, payload) {
       state.token = payload.token;
       console.log("sasstasd", state.token);
-      localStorage.setItem("token", state.token);
-      console.log("tokeen", typeof localStorage.getItem("token"));
+      if (payload.token === null) {
+        return;
+      } else {
+        localStorage.setItem("token", state.token);
+        console.log("tokeen", typeof localStorage.getItem("token"));
+      }
     },
     initialiseStoreWithToken(state) {
       if (localStorage.getItem("token") || !state.token) {
@@ -97,6 +101,9 @@ export default {
       } catch (e) {
         console.error(e);
       }
+    },
+    setTokenNull(context) {
+      context.commit("setUser", { token: null });
     },
   },
 };

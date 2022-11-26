@@ -1,8 +1,19 @@
 <template>
   <div id="app">
+    <LogoutBtn />
     <router-view />
   </div>
 </template>
+
+<script>
+import LogoutBtn from "./components/LogoutBtn.vue";
+export default {
+  name: "App",
+  components: {
+    LogoutBtn,
+  },
+};
+</script>
 
 <style lang="scss">
 #app {

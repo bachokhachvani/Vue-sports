@@ -13,9 +13,6 @@ export default {
     SportsComp,
   },
   computed: {
-    // token() {
-    //   return this.$store.getters["auth/userToken"];
-    // },
     ...mapGetters(["userToken", "loginErrorMessage"]),
   },
   methods: {

@@ -22,6 +22,10 @@ const routes = [
     name: "sportName",
     component: SportsVariety,
   },
+  {
+    path: "/:notFound(.*)",
+    redirect: "/",
+  },
 ];
 
 const router = new VueRouter({
