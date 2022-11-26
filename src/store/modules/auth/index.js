@@ -4,7 +4,7 @@ export default {
   //not namespaced because of token
   // namespaced: true,
   state() {
-    return { token: null, errorMessage: null };
+    return { token: null, errorMessage: null, sports: null };
   },
   getters: {
     userToken(state) {
@@ -19,6 +19,13 @@ export default {
         return "";
       } else {
         return state.errorMessage;
+      }
+    },
+    userSports(state) {
+      if (!state) {
+        return "";
+      } else {
+        return state.sports;
       }
     },
   },
@@ -38,6 +45,16 @@ export default {
     setError(state, payload) {
       state.errorMessage = payload.errorMessage;
       console.log("payload", payload);
+    },
+    setSports(state, payload) {
+      state.sports = payload.sports;
+      console.log("sports", payload);
+    },
+    initialiseStoreWithSports(state) {
+      if (localStorage.getItem("sportsList") || !state.sports) {
+        state.sports = JSON.parse(localStorage.getItem("sportsList"));
+        console.log("sportsgvaq?", state.sports);
+      }
     },
   },
   actions: {
@@ -73,8 +90,10 @@ export default {
             },
           }
         );
-        console.log("asdasdasd", response);
         localStorage.setItem("sportsList", JSON.stringify(response.data));
+        context.commit("setSports", {
+          sports: response.data,
+        });
       } catch (e) {
         console.error(e);
       }

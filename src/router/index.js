@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import SportsVariety from "../views/SportsVariety.vue";
 
 Vue.use(VueRouter);
 
@@ -18,6 +19,11 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/SportsView.vue"),
+  },
+  {
+    path: "/sports/:sportName",
+    name: "sportName",
+    component: SportsVariety,
   },
 ];
 
