@@ -1,7 +1,7 @@
 <template>
-  <div class="main">
+  <div v-if="userToken" class="main">
     <nav>
-      <button v-if="userToken" @click="logout">Logout</button>
+      <button @click="logout">Logout</button>
     </nav>
   </div>
 </template>
@@ -31,5 +31,16 @@ export default {
 .main {
   display: flex;
   justify-content: flex-end;
+  background-color: rgb(113, 153, 232);
+
+  button {
+    background-color: rgb(43, 66, 157);
+    color: #ffff;
+    border: none;
+    border-radius: 8px;
+    height: 25px;
+    width: 100px;
+    cursor: pointer;
+  }
 }
 </style>

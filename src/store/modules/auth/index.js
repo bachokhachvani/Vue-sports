@@ -104,6 +104,7 @@ export default {
     },
     setTokenNull(context) {
       context.commit("setUser", { token: null });
+      context.commit("setSports", { sports: null });
     },
   },
 };

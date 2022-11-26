@@ -1,20 +1,23 @@
 <template>
   <div class="main">
-    <h3>Sign In</h3>
-    <form @submit.prevent="submitHandler">
-      <div>
-        <label for="login">Login</label>
-        <input v-model.trim="email" type="text" placeholder="email" />
-      </div>
-      <div>
-        <label for="password">Password</label>
-        <input v-model.trim="password" type="text" placeholder="password" />
-      </div>
-      <p v-if="isLoading">Loading ...</p>
-      <p v-if="loginErrorMessage && !isLoading">{{ loginErrorMessage }}</p>
-      <p v-if="!formIsValid">Email or password is incorrect</p>
-      <button>Sign in</button>
-    </form>
+    <div v-if="userToken"><h3>Home Page</h3></div>
+    <div v-if="!userToken">
+      <h3>Sign In</h3>
+      <form @submit.prevent="submitHandler">
+        <div>
+          <label for="login">Login</label>
+          <input v-model.trim="email" type="text" placeholder="email" />
+        </div>
+        <div>
+          <label for="password">Password</label>
+          <input v-model.trim="password" type="text" placeholder="password" />
+        </div>
+        <p v-if="isLoading">Loading ...</p>
+        <p v-if="loginErrorMessage && !isLoading">{{ loginErrorMessage }}</p>
+        <p v-if="!formIsValid">Email or password is incorrect</p>
+        <button>Sign in</button>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -33,9 +36,6 @@ export default {
     };
   },
   computed: {
-    // token() {
-    //   return this.$store.getters["auth/userToken"];
-    // },
     ...mapGetters(["userToken", "loginErrorMessage"]),
   },
   methods: {
@@ -78,6 +78,7 @@ export default {
   margin-top: 10%;
   h3 {
     margin-bottom: 30px;
+    color: rgb(43, 66, 157);
   }
   form {
     display: flex;
@@ -88,6 +89,14 @@ export default {
       justify-content: space-between;
     }
   }
+  button {
+    background-color: rgb(43, 66, 157);
+    border-radius: 8px;
+    color: #ffff;
+    border: none;
+    height: 30px;
+    cursor: pointer;
+  }
 }
 
 input {
@@ -95,7 +104,9 @@ input {
 }
 
 label {
+  color: rgb(43, 66, 157);
   width: 100px;
   margin-right: 20px;
+  font-weight: 600;
 }
 </style>
