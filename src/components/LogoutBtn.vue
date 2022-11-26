@@ -13,9 +13,6 @@ export default {
   // data() {},
   computed: {
     ...mapGetters(["userToken"]),
-    // isLoggedIn() {
-    //     if()
-    // },
   },
   methods: {
     logout() {

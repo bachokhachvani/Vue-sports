@@ -1,8 +1,6 @@
 import axios from "axios";
 
 export default {
-  //not namespaced because of token
-  // namespaced: true,
   state() {
     return { token: null, errorMessage: null, sports: null };
   },
@@ -104,6 +102,5 @@ export default {
       context.commit("setUser", { token: null });
       context.commit("setSports", { sports: null });
     },
-    // async getSportsWhenLocalStorageisEmpty(context) {},
   },
 };

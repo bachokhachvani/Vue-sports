@@ -55,7 +55,6 @@ export default {
         });
       } catch (e) {
         this.error = e.message || "failed to login!";
-        console.log("err");
       }
       this.isLoading = false;
       if (!this.loginErrorMessage) {
